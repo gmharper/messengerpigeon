@@ -1,103 +1,113 @@
-import Image from "next/image";
+
+"use client"
+
+// IMPORTS
+import { createContext, Dispatch, SetStateAction, useCallback, useEffect, useLayoutEffect, useReducer, useState } from "react";
+
+// COMPONENTS
+import { LeftPanel } from "./components/left_panel/index";
+import { MainPanel } from "./components/main_panel/index";
+import { RightPanel } from "./components/right_panel/index";
+
+// TYPE DECLARATIONS
+interface AppContext {
+  getWindowSize:Function,
+  isLoggedIn: boolean,
+  setIsLoggedIn: Dispatch<SetStateAction<boolean>>,
+  loggedInUser:user,
+  setLoggedInUser:Dispatch<SetStateAction<user>>
+}
+
+type user = {
+  type: string,
+  username: string,
+  name: string,
+  avatar_url: string
+}
+
+type filter = {
+  id: string,
+  name: string,
+  isEnabled: boolean,
+  only: boolean
+}
+type filters = { [key:string]: Array<filter> }
+
+// FILTERS
+const myFilters:filters = {
+    'feed': [
+      { id: 'liked', name: 'Liked', isEnabled: true, only: false }, 
+      {id: 'read', name: 'READ', isEnabled: true, only: false }],
+    'users': [
+      { id: 'following', name: 'Following', isEnabled: true, only: false },
+      { id: 'followed_by', name: 'Followed By', isEnabled: true, only: false}, 
+      { id: 'verified', name: 'Verified', isEnabled: true, only: false },
+      { id: 'blocked', name: 'Blocked', isEnabled: false, only: false }
+    ],
+    'topics': [
+      { id: 'subscribed', name: 'Liked', isEnabled: true, only: false },
+      { id: 'hot', name: 'Hot Topic', isEnabled: true, only: false },
+      { id: 'disabled', name: "Don't Show", isEnabled: false, only: false }
+    ],
+    'articles': [
+      { id: 'liked', name: 'Liked', isEnabled: true, only: false }
+    ],
+    'comments': []
+}
+
+export const AppContext = createContext<AppContext>({} as AppContext)
 
 export default function Home() {
-  return (
-    <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="font-mono list-inside list-decimal text-sm/6 text-center sm:text-left">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] font-mono font-semibold px-1 py-0.5 rounded">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+  const [isLoggedIn, setIsLoggedIn] = useState(true)
+  const [loggedInUser, setLoggedInUser] = useState({ type:'user', username: 'gmharper', name:'George Harper', avatar_url: 'https://wildbase-recovery.storage.googleapis.com/2018/07/18094939/IMG_3704-scaled-e1642452804810.jpg' })
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+  const [page, setPage] = useState('home')
+
+  const [displayType, setDisplayType] = useState('users')
+
+  const filtersReducer = (state:filters, action:any):filters => {
+    const stateCopy = {...state}
+    const key:'feed' | 'users' = action.type
+    const index = action.index
+
+    stateCopy[key][index].isEnabled = action.isEnabled
+
+    return stateCopy
+  } 
+
+  const [filters, setFilters] = useReducer(filtersReducer, myFilters)
+
+  const getWindowSize = useCallback(() => {
+    const [size, setSize] = useState([0, 0]);
+    useLayoutEffect(() => {
+      function updateSize() {
+        setSize([window.innerWidth, window.innerHeight]);
+      }
+
+      window.addEventListener('resize', updateSize);
+      updateSize();
+
+      return () => window.removeEventListener('resize', updateSize);
+    }, []);
+
+    return size;
+  }, [] )
+
+  useEffect(() => {
+    // make call to db to get activeUser
+  }, [])
+
+  return (
+    <AppContext.Provider value={{ getWindowSize, isLoggedIn, setIsLoggedIn, loggedInUser, setLoggedInUser }} >
+        <div className='flex flex-row'>
+          <div className='flex flex-row'>
+            <LeftPanel displayType={displayType} setDisplayType={setDisplayType} filters={myFilters} setFilters={setFilters}/>
+            <MainPanel displayType={displayType} setDisplayType={setDisplayType} filters={myFilters} />
+            <RightPanel />
+          </div>
+
+          <div className='flex-1'/>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
+    </AppContext.Provider >
   );
 }
