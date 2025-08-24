@@ -1,3 +1,4 @@
+"use client"
 // IMPORTS
 import AppProvider from "./contexts/AppProvider";
 import bg from "../app/assets/img/bg.jpg" //background image
