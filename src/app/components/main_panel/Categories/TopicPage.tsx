@@ -91,7 +91,7 @@ function TopicPage ():React.JSX.Element {
             .then((topic) => {
                 setParams({ heading: topic? topic.name? topic.name : 'TOPIC' : 'TOPIC' })
 
-                return getArticles(setTopicArticles, setArticlesLoading, setArticlesError, topic.slug, null, params.sort, 'DESC', 0, 12)
+                return getArticles(setTopicArticles, setArticlesLoading, setArticlesError, topic.slug, '', params.sort, 'DESC', 0, 12)
             })
             .then((articles:any) => {
                 setFilteredArticles(articles)
@@ -103,7 +103,7 @@ function TopicPage ():React.JSX.Element {
 
     useEffect(() => {
         if (!params.loading_page) {
-            getArticles(setTopicArticles, setArticlesLoading, setArticlesError, storedTopic.slug, null, params.sort, params.order, params.page, params.per_page)
+            getArticles(setTopicArticles, setArticlesLoading, setArticlesError, storedTopic.slug, '', params.sort, params.order, params.page, params.per_page)
         }
     }, [params.sort, params.order, params.page, params.per_page])
 

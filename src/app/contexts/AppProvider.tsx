@@ -11,7 +11,7 @@ type user = {
   type:string, username: string, name: string, email:string, password:string, verified:boolean, description:string, 
   theme:string, banner_img_url:string, avatar_img_url: string
   profile_colour:string, banner_blend:string, banner_position:string,
-  articles:Array<string>, comments:Array<string>, subscribed_topics:Array<string>, subscribed_games:Array<string>,
+  articles:Array<number>, comments:Array<number>, subscribed_topics:Array<string>, subscribed_games:Array<string>,
   followers:Array<string>, following:Array<string>
   voted_articles:Array<number>, voted_comments:Array<number>,
   created_at:string
@@ -31,7 +31,7 @@ const defaultParams = {
   show_roost: true, disable_roost: false, show_function_bar: true, show_filters: true, show_heading: true,
   heading: '',
   search: '', sorts: [], 
-  sort: 'created_at', order: 'DESC', page: 0, per_page: 16,
+  sort: 'created_at', order: 'DESC', page: 0, per_page: 16, max_page:100,
   author: '', topic: '', article_id: 0,
   filters: [], only: ''
 }
@@ -109,7 +109,7 @@ function AppProvider ({ children }:{ children:React.ReactNode }) {
       "https://www.healthytherapies.com/wp-content/uploads/2016/06/Lime3.jpg",
     banner_img_url: "",
     banner_blend: "normal", banner_position: "center",
-    articles: ["butter_bridge's article"], comments: ["hello this is a comment"],
+    articles: [], comments: [],
     subscribed_topics: [], subscribed_games: [],
     followers: [], following: [],
     voted_articles: [], voted_comments: [],

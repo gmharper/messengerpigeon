@@ -14,8 +14,6 @@ import { RightPanel } from "./components/right_panel/index";
 import DebugPanel from "./components/DebugPanel"
 import TopNavBar from "./components/TopNavBar";
 
-import { ChevronDoubleLeftIcon, ChevronDoubleRightIcon } from "@heroicons/react/24/solid";
-
 export default function Home() {
   return (
     <AppProvider children={
@@ -41,8 +39,10 @@ export default function Home() {
                   showDebug ? <DebugPanel /> : <></>
                 }
               </div> */}
+              <RightPanel />
             </div>
           </>
-        } />
+        } 
+    />
   );
 }

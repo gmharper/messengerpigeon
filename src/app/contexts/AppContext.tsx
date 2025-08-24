@@ -20,7 +20,7 @@ type user = {
     type:string, username: string, name: string, email:string, password:string, verified:boolean, description:string, 
     theme:string, banner_img_url:string, avatar_img_url: string
     profile_colour:string, banner_blend:string, banner_position:string,
-    articles:Array<string>, comments:Array<string>, subscribed_topics:Array<string>, subscribed_games:Array<string>,
+    articles:Array<number>, comments:Array<number>, subscribed_topics:Array<string>, subscribed_games:Array<string>,
     followers:Array<string>, following:Array<string>
     voted_articles:Array<number>, voted_comments:Array<number>,
     created_at:string
@@ -39,7 +39,7 @@ type params = {
     show_roost:boolean, disable_roost:boolean, show_function_bar:boolean, show_filters:boolean, show_heading:boolean,
     heading:string,
     search:string, sorts:Array<string>,
-    sort:string, order:string, page:number, per_page:number, only:string, filters:Array<any>,
+    sort:string, order:string, page:number, per_page:number, max_page:number, only:string, filters:Array<any>,
     author:string, topic:string, article_id:number
 }
 

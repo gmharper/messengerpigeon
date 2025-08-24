@@ -18,12 +18,12 @@ type AppProps = {
 }
 
 type user = {
-    type:string, username: string, name: string, email:string, description:string,
+    type:string, username: string, name: string, email:string, verified:boolean, description:string,
     avatar_img_url: string, banner_img_url:string, profile_colour:string,
     banner_blend:string, banner_position:string,
-    articles:Array<string>, comments:Array<string>, subscribed_topics:Array<string>, subscribed_games:Array<string>
+    articles:Array<number>, comments:Array<number>, subscribed_topics:Array<string>, subscribed_games:Array<string>
     followers:Array<string>, following:Array<string>,
-    voted_articles:Array<string>, voted_comments:Array<string>,
+    voted_articles:Array<number>, voted_comments:Array<number>,
     created_at:string
 }
 

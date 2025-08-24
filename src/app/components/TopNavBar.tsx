@@ -1,4 +1,3 @@
-
 "use client"
 
 // IMPORTS
@@ -42,9 +41,13 @@ function TopNavBar ({ isHomepage }:Props ):React.JSX.Element {
         setLoggedInUser(null)
     }
 
+    useEffect(() => {
+        
+    }, [])
+
     return (
         <div className={'flex flex-row gap-3 h-14 border-b-1 border-zinc-300 px-4 items-center ' +theme.base} >
-            <a href="https://gmharper.netlify.app/" className='w-8 h-8 content-center rounded-xs' onClick={() => { if (isHomepage) window.location.reload() }}>
+            <a href="https://gmharper.netlify.app/" className='w-8 h-8 content-center rounded-xs' onClick={() => {  }}>
                 <HomeIcon className={'p-1 h-full hover:scale-115' +theme.text} />
             </a>
 

@@ -60,7 +60,7 @@ function CommentPage():React.JSX.Element {
             error ? 
             <div className='flex flex-col gap-2 w-90 h-32 bg-white place-items-center content-center justify-center rounded-xl mt-16 p-4'>
                 <p className='font-bold text-black text-center'>There was an error fetching comment information. Please try refreshing.</p>
-                <p className='font-bold text-indigo-500 text-center'>{error.err_msg}</p>
+                <p className='font-bold text-indigo-500 text-center'>{error? error : 'ERROR'}</p>
             </div> 
             : 
             loading ? 

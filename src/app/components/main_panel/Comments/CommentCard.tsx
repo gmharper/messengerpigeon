@@ -46,7 +46,7 @@ function CommentCard ({ comment_id, comment, cardShape }:AppProps ):React.JSX.El
     }
 
     const [storedComment, setStoredComment] = useReducer(commentReducer, comment)
-    const [isLiked, setIsLiked] = useState(loggedInUser.voted_comments.includes(String(comment_id)))
+    const [isLiked, setIsLiked] = useState(loggedInUser.voted_comments.includes(comment_id))
 
     const [voteLoading, setVoteLoading] = useState(false)
     const [voteError, setVoteError] = useState(null)

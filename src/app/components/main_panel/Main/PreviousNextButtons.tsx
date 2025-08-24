@@ -8,18 +8,16 @@ import { ArrowLeftIcon, ArrowRightIcon } from "@heroicons/react/24/solid"
 // TYPE DECLARATIONS
 type Props = {
     type?: string,
-    currentPage: number,
-    maxPage: number,
-    setParams: Dispatch<SetStateAction<any>>
+    currentPage?: number,
+    maxPage?: number,
 }
 
-function PreviousNextButton ({ type, currentPage, maxPage }:Props ):React.JSX.Element {
+function PreviousNextButton ({ type, currentPage=0, maxPage=10 }:Props ):React.JSX.Element {
     const { params, setParams } = useContext(AppContext)
     
     function handlePageChange (type:string) {
         switch (type) {
             case 'previous':
-                console.log(currentPage)
                 if (currentPage === 0) return
                 else setParams({ page: currentPage-1})
                 break;

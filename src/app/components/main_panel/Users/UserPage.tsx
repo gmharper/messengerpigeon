@@ -62,7 +62,7 @@ function UserPage ():React.JSX.Element {
     const [articlesError, setArticlesError] = useState(null)
 
     const [commentsLoading, setCommentsLoading] = useState(false)
-    const [commentsError, setCommentsError] = useState(false)
+    const [commentsError, setCommentsError] = useState(null)
 
     useEffect(() => {
         setParams({ location: 'user_page', heading: 'USER' })
@@ -71,11 +71,11 @@ function UserPage ():React.JSX.Element {
             getUserByUsername(params.id, setStoredUser, setLoading, setError)
             .then((user) => {
                 setParams({ location: 'user_page', heading: user.name})
-                getArticles(setUserArticles, setArticlesLoading, setArticlesError, null, user.username, 'created_at', 'DESC', 0, 8)
+                getArticles(setUserArticles, setArticlesLoading, setArticlesError, '', user.username, 'created_at', 'DESC', 0, 8)
                 return user
             })
             .then((user) => {
-                return getComments(setUserComments, setCommentsLoading, setCommentsError, null, user.username)
+                return getComments(setUserComments, setCommentsLoading, setCommentsError, 0, user.username)
             })
             .then((comments) => {
                 console.log(comments)

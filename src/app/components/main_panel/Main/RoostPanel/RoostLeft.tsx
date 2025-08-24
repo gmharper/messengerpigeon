@@ -63,7 +63,7 @@ function RoostLeft ({ user }:Props):React.JSX.Element {
                 <div className='w-28 h-28 bg-white rounded-sm overflow-hidden p-1'>
                     { 
                         user ? user.avatar_img_url ? 
-                        <img src={user ? user.avatar_img_url ? user.avatar_img_url : null : null} /> :
+                        <img src={user ? user.avatar_img_url ? user.avatar_img_url : '' : ''} /> :
                         <UserIcon className='text-black'/> : <UserIcon className='text-black'/>
                     }
                 </div>

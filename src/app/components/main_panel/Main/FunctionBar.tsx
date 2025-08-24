@@ -39,66 +39,66 @@ function FunctionBar():React.JSX.Element {
 
     const [sorts, setSorts] = useState([{ id: 'created_at', name: 'Creation Date'}])
 
-    useEffect(() => {
-        switch (params.sorts) {
-            case 'feed_sorts':
-                setSorts([
-                    { id: 'created_at', name: 'Creation Date'}
-                ])
-                setParams({ sort: 'created_at', order: 'DESC', page: 0 })
-                break;
-            case 'user_sorts':
-                setSorts([
-                    { id: 'created_at', name: 'Creation Date'},
-                    { id: 'username', name: 'Username' },
-                    { id: 'name', name: 'Name' },
-                    { id: 'followers_count', name: 'Number of followers' },
-                    { id: 'articles_count', name: 'Number of articles' },
-                    { id: 'comments_count', name: 'Number of comments' }
-                ])
-                setParams({ sort: 'followers_count', order: 'DESC', page: 0 })
-                break;
-            case 'article_sorts':
-                setSorts([
-                    { id: 'created_at', name: 'Creation date'},
-                    { id: 'article_id', name: 'ID'},
-                    { id: 'title', name: 'Title' },
-                    { id: 'topic', name: 'Topic' },
-                    { id: 'author', name: 'Author' },
-                    { id: 'votes_count', name: 'Number of likes' }
-                ])
-                setParams({ sort: 'created_at', order: 'DESC', page: 0 })
-                break;
-            case 'topic_sorts':
-                setSorts([
-                    { id: 'created_at', name: 'Creation Date'},
-                    { id: 'slug', name: 'Name' },
-                    { id: 'subscribers_count', name: 'Number of subscribers' },
-                ])
-                setParams({ sort: 'subscribers_count', order: 'DESC', page: 0 })
-                break;
-            case 'comment_sorts':
-                setSorts([
-                    { id: 'created_at', name: 'Creation Date'},
-                    { id: 'articles_id', name: 'Article' },
-                    { id: 'comment_id', name: 'ID' },
-                    { id: 'author', name: 'Author' },
-                    { id: 'votes_count', name: 'Number of likes'}
-                ])
-                setParams({ sort: 'created_at', order: 'DESC', page: 0 })
-                break;
-            case 'game_sorts':
-                setSorts([
-                    { id: 'created_at', name: 'Creation Date'}
-                ])
-                setParams({ sort: 'created_at', order: 'DESC', page: 0 })
-                break;
-            default:
-                setSorts([{ id: 'created_at', name: 'Creation Date'}])
-                setParams({ sort: 'created_at', order: 'DESC', page: 0, per_page: 16 })
-                return
-        }
-    }, [params.sorts])
+    // useEffect(() => {
+    //     switch (params.sorts) {
+    //         case 'feed_sorts':
+    //             setSorts([
+    //                 { id: 'created_at', name: 'Creation Date'}
+    //             ])
+    //             setParams({ sort: 'created_at', order: 'DESC', page: 0 })
+    //             break;
+    //         case 'user_sorts':
+    //             setSorts([
+    //                 { id: 'created_at', name: 'Creation Date'},
+    //                 { id: 'username', name: 'Username' },
+    //                 { id: 'name', name: 'Name' },
+    //                 { id: 'followers_count', name: 'Number of followers' },
+    //                 { id: 'articles_count', name: 'Number of articles' },
+    //                 { id: 'comments_count', name: 'Number of comments' }
+    //             ])
+    //             setParams({ sort: 'followers_count', order: 'DESC', page: 0 })
+    //             break;
+    //         case 'article_sorts':
+    //             setSorts([
+    //                 { id: 'created_at', name: 'Creation date'},
+    //                 { id: 'article_id', name: 'ID'},
+    //                 { id: 'title', name: 'Title' },
+    //                 { id: 'topic', name: 'Topic' },
+    //                 { id: 'author', name: 'Author' },
+    //                 { id: 'votes_count', name: 'Number of likes' }
+    //             ])
+    //             setParams({ sort: 'created_at', order: 'DESC', page: 0 })
+    //             break;
+    //         case 'topic_sorts':
+    //             setSorts([
+    //                 { id: 'created_at', name: 'Creation Date'},
+    //                 { id: 'slug', name: 'Name' },
+    //                 { id: 'subscribers_count', name: 'Number of subscribers' },
+    //             ])
+    //             setParams({ sort: 'subscribers_count', order: 'DESC', page: 0 })
+    //             break;
+    //         case 'comment_sorts':
+    //             setSorts([
+    //                 { id: 'created_at', name: 'Creation Date'},
+    //                 { id: 'articles_id', name: 'Article' },
+    //                 { id: 'comment_id', name: 'ID' },
+    //                 { id: 'author', name: 'Author' },
+    //                 { id: 'votes_count', name: 'Number of likes'}
+    //             ])
+    //             setParams({ sort: 'created_at', order: 'DESC', page: 0 })
+    //             break;
+    //         case 'game_sorts':
+    //             setSorts([
+    //                 { id: 'created_at', name: 'Creation Date'}
+    //             ])
+    //             setParams({ sort: 'created_at', order: 'DESC', page: 0 })
+    //             break;
+    //         default:
+    //             setSorts([{ id: 'created_at', name: 'Creation Date'}])
+    //             setParams({ sort: 'created_at', order: 'DESC', page: 0, per_page: 16 })
+    //             return
+    //     }
+    // }, [params.sorts])
 
     return (
         <div className={'flex flex-row w-full gap-2 min-h-12 h-12 p-2 pr-4 outline-0 outline-zinc-300 shadow-sm shadow-black/20 rounded-full ' +theme.secondary}>

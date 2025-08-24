@@ -134,7 +134,7 @@ function SignupPage () {
                 </button>
 
                 <div className='w-full h-16 bg-zinc-900 rounded-xl'>
-                    <p className='text-gray-500'>{signupError && signupError.err_msg}</p>
+                    <p className='text-gray-500'>{signupError? signupError : 'ERROR'}</p>
                 </div>
             </div> 
             :
