@@ -39,7 +39,7 @@ type params = {
     show_roost:boolean, disable_roost:boolean, show_function_bar:boolean, show_filters:boolean, show_heading:boolean,
     heading:string,
     search:string, sorts:Array<string>,
-    sort:string, order:string, page:string, per_page:string, only:string, filters:Array<any>,
+    sort:string, order:string, page:number, per_page:number, only:string, filters:Array<any>,
     author:string, topic:string, article_id:number
 }
 

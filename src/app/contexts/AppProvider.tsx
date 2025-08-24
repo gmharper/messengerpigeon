@@ -24,16 +24,6 @@ type topic = {
   created_at:string
 }
 
-type params = {
-  location:string, id:string, name:string, loading_page:boolean,
-  display_type:string, roost_type:string, card_shape:string,
-  show_roost:boolean, disable_roost:boolean, show_function_bar:boolean, show_filters:boolean, show_heading:boolean,
-  heading:string,
-  search:string, sorts:Array<string>,
-  sort:string, order:string, page:string, per_page:string, only:string, filters:Array<any>,
-  author:string, topic:string, article_id:number
-}
-
 // DEFAULTS
 const defaultParams = {
   location: '', id: '', name: '', loading_page:false,

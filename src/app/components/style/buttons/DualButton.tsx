@@ -6,7 +6,7 @@ type DualButtonProps = {
     text_left?:string,
     text_right?:string,
     state:string,
-    setState: Dispatch<SetStateAction<string | boolean>>,
+    setState: any,
     styling?:string
 }
 

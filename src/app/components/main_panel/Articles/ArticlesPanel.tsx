@@ -14,13 +14,11 @@ import { LoadingCard } from "../../style"
 type article = {
     type: string,
     article_id: number,
-    title: string,
-    topic: string,
+    title: string, topic: string, body:string,
     author: string,
-    created_at: Date,
-    votes: number,
-    img_url: string,
-    comment_count: number
+    voted_by:Array<string>, comments:Array<number>,
+    img_url: string, link_url:string,
+    created_at:string
 }
 
 function ArticlesPanel ():React.JSX.Element {
