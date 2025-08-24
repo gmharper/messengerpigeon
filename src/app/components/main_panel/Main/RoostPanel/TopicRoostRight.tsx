@@ -1,6 +1,6 @@
 // IMPORTS
 import { Dispatch, SetStateAction, useContext, useEffect, useState } from "react"
-import { AppContext } from "@/app/page"
+import { AppContext, ThemeContext } from "@/app/contexts/AppContext";
 
 // COMPONENTS
 import { StarButton } from "@/app/components/style"

@@ -1,7 +1,7 @@
 
 // IMPORTS
 import { useContext, useEffect, useReducer, useState } from "react"
-import { AppContext } from "@/app/page"
+import { AppContext, ThemeContext } from "@/app/contexts/AppContext";
 import { StateContext } from "@/app/state"
 
 // SCRIPTS

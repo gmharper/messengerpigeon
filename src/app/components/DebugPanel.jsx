@@ -1,7 +1,7 @@
 // IMPORTS
 import axios from "axios"
 import { useContext, useEffect, useState } from "react"
-import { AppContext } from "../page"
+import { AppContext } from "../contexts/AppContext"
 
 import { 
     getUsers, getUserByUsername, getUserData, getUsersData,
@@ -33,7 +33,7 @@ import {
 let button_selected = "bg-sky-400"
 let button_unselected = "bg-white"
 
-function DebugPanel ({ displayType }) {
+function DebugPanel () {
     const { isLoggedIn, loggedInUsername, loggedInUser } = useContext(AppContext)
 
     const [debugType, setDebugType] = useState('API')
@@ -334,9 +334,9 @@ function DebugPanel ({ displayType }) {
             </>
             : debugType==='PAGE' ?
             <div className='flex flex-col gap-1'>
-                <div className='bg-white rounded-sm px-2'>
+                {/* <div className='bg-white rounded-sm px-2'>
                     <p className='text-black'>{`displayType: ${displayType}`}</p>
-                </div>
+                </div> */}
 
                 <div className='bg-white rounded-sm px-2'>
                     <p className='text-black'>{`isLoggedIn: ${isLoggedIn}`}</p>

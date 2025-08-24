@@ -1,9 +1,4 @@
-
-"use client"
-
 // IMPORTS
-import { useContext } from "react"
-import { AppContext } from "@/app/page"
 
 // TYPE DECLARATION
 type Props = {

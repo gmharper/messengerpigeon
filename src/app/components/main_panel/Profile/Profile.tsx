@@ -1,6 +1,6 @@
 // IMPORTS
 import { Dispatch, Profiler, Reducer, SetStateAction, useContext, useEffect, useReducer, useRef, useState } from "react"
-import { AppContext } from "@/app/page"
+import { AppContext, ThemeContext } from "@/app/contexts/AppContext";
 
 // COMPONENTS
 import { RoostPanel } from "../Main/index"
@@ -148,10 +148,9 @@ function Profile ({ dummyProfile, setDummyProfile }:ProfileProps):React.JSX.Elem
 
     return (
         <div className='relative flex flex-col w-full gap-2 px-4 py-12'>
-            <div className='z-200 fixed flex m-auto bottom-10 translate-x-75 invisible '>
+            {/* <div className='z-200 fixed flex m-auto bottom-10 translate-x-75 invisible '>
                 <MessageCard message={''} severity={'success'} />
-            </div>
-
+            </div> */}
             <div className='absolute flex flex-col gap-4 top-5 right-5'>
                 <button className='w-12 h-12 rounded-lg bg-white p-2'
                 onClick={() => { handleSave() }}>

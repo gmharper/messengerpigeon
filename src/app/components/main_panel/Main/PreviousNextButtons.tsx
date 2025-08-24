@@ -1,6 +1,6 @@
 // IMPORTS
 import { Dispatch, SetStateAction, useContext } from "react"
-import { AppContext } from "@/app/page"
+import { AppContext, ThemeContext } from "@/app/contexts/AppContext";
 
 // COMPONENTS
 import { ArrowLeftIcon, ArrowRightIcon } from "@heroicons/react/24/solid"

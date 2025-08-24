@@ -1,6 +1,6 @@
 // IMPORTS
 import React, { Dispatch, SetStateAction, useContext, useEffect, useState } from "react"
-import { AppContext } from "@/app/page"
+import { AppContext, ThemeContext } from "@/app/contexts/AppContext";
 import { StateContext } from "@/app/state"
 
 // SCRIPTS

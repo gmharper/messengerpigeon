@@ -5,7 +5,7 @@
 import { Dispatch, SetStateAction, useContext, useEffect, useState } from "react"
 import { Link as Link } from "react-router"
 
-import { AppContext, ThemeContext } from "../page"
+import { AppContext, ThemeContext } from "../contexts/AppContext"
 
 // SCRIPTS
 import handleThemeChange from "../scripts/utils/setTheme"
@@ -26,12 +26,11 @@ import Slider from '@mui/material/Slider';
 
 // TYPE DECLARATION
 type Props = {
-    setDisplayType: Dispatch<SetStateAction<string>>
     isHomepage: boolean
 }
 
-function TopNavBar ({ setDisplayType, isHomepage }:Props ):React.JSX.Element {
-    const { getWindowSize, isLoggedIn, setIsLoggedIn, setLoggedInUsername, setLoggedInUser, loggedInUser } = useContext(AppContext)
+function TopNavBar ({ isHomepage }:Props ):React.JSX.Element {
+    const { getWindowSize, params, setParams, isLoggedIn, setIsLoggedIn, setLoggedInUsername, setLoggedInUser, loggedInUser } = useContext(AppContext)
     const { theme, setTheme } = useContext(ThemeContext)
 
     const [sliderValue, setSliderValue] = useState(100)
@@ -42,35 +41,6 @@ function TopNavBar ({ setDisplayType, isHomepage }:Props ):React.JSX.Element {
         setLoggedInUsername("")
         setLoggedInUser(null)
     }
-
-    
-
-    // function handleThemeChange (type:string) {
-    //     switch (type) {
-    //         case 'dark':
-    //             setTheme({ 
-    //                 base: ' bg-zinc-900',
-    //                 alt: ' bg-zinc-200',
-    //                 lines: ' lines-background-dark'
-    //              })
-    //             setLoggedInUser({ 
-    //                 theme: 'dark', 
-    //             })
-    //             break;
-    //         case 'light':
-    //             setTheme({ 
-    //                 base: ' bg-zinc-200',
-    //                 alt: ' bg-zinc-900', 
-    //                 lines: ' lines-background-white'
-    //             })
-    //             setLoggedInUser({ 
-    //                 theme: 'light',
-    //             })
-    //             break;
-    //         default:
-    //             return
-    //     }
-    // }
 
     return (
         <div className={'flex flex-row gap-3 h-14 border-b-1 border-zinc-300 px-4 items-center ' +theme.base} >
@@ -89,24 +59,24 @@ function TopNavBar ({ setDisplayType, isHomepage }:Props ):React.JSX.Element {
             <div className='flex w-32 h-8'>
                 <button 
                     className={'w-16 h-full bg-zinc-900 rounded-l-full outline-1 outline-zinc-300 place-items-center '}
-                    onClick={() => {handleThemeChange( 'dark', setTheme, setLoggedInUser )}}>
+                    onClick={() => { handleThemeChange( 'dark', setTheme, setLoggedInUser ) }}>
                     <MoonIcon className='h-6 text-white'/>
                 </button>
                 <button 
                     className={'w-16 h-full bg-white rounded-r-full outline-1 outline-zinc-500 place-items-center'}
-                    onClick={() => {handleThemeChange( 'light', setTheme, setLoggedInUser )}}>
+                    onClick={() => { handleThemeChange( 'light', setTheme, setLoggedInUser ) }}>
                     <SunIcon className='h-6 text-black'/>
                 </button>
             </div>
 
             { isLoggedIn ?
                 <button className={'flex w-24 h-8 rounded-full px-2 justify-center items-center ' +theme.alt}
-                onClick={() => {handleLogout()}}>
+                onClick={() => { handleLogout() }}>
                     <p className={'font-bold text-sm ' +theme.text_alt}>LOGOUT</p>
                 </button> :
 
                 <button className={'flex w-24 h-8 rounded-full px-2 justify-center items-center ' +theme.alt}
-                onClick={() => {setDisplayType("login")}}>
+                    onClick={() => { setParams({ display_type: 'login' }) }} >
                     <p className={'font-bold text-sm ' +theme.text_alt}>LOGIN</p>
                 </button>
             }

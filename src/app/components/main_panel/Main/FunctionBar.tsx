@@ -2,7 +2,7 @@
 // IMPORTS
 import { Dispatch, SetStateAction, useContext, useEffect, useState } from "react"
 import Select from 'react-select';
-import { AppContext, ThemeContext } from "@/app/page";
+import { AppContext, ThemeContext } from "@/app/contexts/AppContext";
 
 // COMPONENTS
 import { SearchBar } from "./index"

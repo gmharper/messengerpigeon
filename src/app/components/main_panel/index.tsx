@@ -1,4 +1,3 @@
-
 import MainPanel from "./MainPanel";
 
 import SearchBar from "./Main/SearchBar";

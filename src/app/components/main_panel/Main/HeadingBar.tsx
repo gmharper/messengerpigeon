@@ -1,6 +1,6 @@
 // IMPORTS
 import { Dispatch, SetStateAction, useContext, useEffect } from "react"
-import { AppContext, ThemeContext } from "@/app/page"
+import { AppContext, ThemeContext } from "@/app/contexts/AppContext";
 
 // COMPONENTS
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/24/solid"

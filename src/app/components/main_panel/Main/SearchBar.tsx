@@ -1,8 +1,6 @@
-"use client"
-
 // IMPORTS
 import { Dispatch, SetStateAction, ChangeEventHandler, InputHTMLAttributes, useState, useContext } from "react"
-import { AppContext } from "@/app/page"
+import { AppContext, ThemeContext } from "@/app/contexts/AppContext";
 
 // TYPE DECLARATION
 type Props = {

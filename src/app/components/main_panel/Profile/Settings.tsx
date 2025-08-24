@@ -1,6 +1,6 @@
 // IMPORTS
 import { Dispatch, SetStateAction, useContext, useEffect } from "react"
-import { AppContext } from "@/app/page"
+import { AppContext, ThemeContext } from "@/app/contexts/AppContext";
 
 // TYPE DECLARATIONS
 type SettingsProps = {

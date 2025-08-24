@@ -1,6 +1,6 @@
 // IMPORTS
 import { useContext, useEffect, useState } from "react"
-import { AppContext } from "@/app/page"
+import { AppContext, ThemeContext } from "@/app/contexts/AppContext";
 
 // SCRIPTS
 import { getUserByUsername, getTopics, getArticles } from "@/app/scripts/fetch"

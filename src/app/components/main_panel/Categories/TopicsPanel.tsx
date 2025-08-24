@@ -1,8 +1,6 @@
-"use client"
-
 // IMPORTS
 import { useContext, useEffect, useState } from "react"
-import { AppContext } from "@/app/page"
+import { AppContext, ThemeContext } from "@/app/contexts/AppContext";
 
 // SCRIPTS
 import { getTopics } from "../../../scripts/fetch/index"

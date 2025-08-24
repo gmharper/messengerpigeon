@@ -1,5 +1,5 @@
 import { useContext } from "react"
-import { ThemeContext } from "@/app/page"
+import { ThemeContext } from "@/app/contexts/AppContext"
 
 // TYPE DECLARATION
 type Props = {

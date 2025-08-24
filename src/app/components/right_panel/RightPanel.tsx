@@ -1,6 +1,6 @@
 // IMPORTS
 import { useContext } from "react"
-import { ThemeContext } from "@/app/page"
+import { AppContext, ThemeContext } from "@/app/contexts/AppContext"
 import { StateContext } from "@/app/state"
 
 // COMPONENTS

@@ -2,7 +2,7 @@
 
 //IMPORTS
 import { ActionDispatch, Dispatch, SetStateAction, useCallback, useContext, useEffect, useReducer, useState } from "react"
-import { AppContext, ThemeContext } from "../../page"
+import { AppContext, ThemeContext } from "@/app/contexts/AppContext"
 import { StateContext } from "@/app/state"
 
 // SCRIPTS
@@ -80,7 +80,7 @@ type filter = {
 // STYLING
 const button_styling = 'h-full text-black aspect-1/1'
 
-function LeftPanel ({ displayType='users' }:AppProps ):React.JSX.Element {
+function LeftPanel ():React.JSX.Element {
     const { getWindowSize, isLoggedIn, loggedInUser, params, setParams } = useContext(AppContext)
     const { theme, setTheme } = useContext(ThemeContext)
     const { setCurrentState } = useContext(StateContext)
@@ -99,7 +99,6 @@ function LeftPanel ({ displayType='users' }:AppProps ):React.JSX.Element {
         }
     }
 
-    const [selectedLabel, setSelectedLabel] = useState(displayType)
     const [labels, setLabels] = useReducer(labelsReducer, left_panel_labels)
 
     // HANDLER FUNCTIONS
@@ -162,7 +161,7 @@ function LeftPanel ({ displayType='users' }:AppProps ):React.JSX.Element {
                 />
 
                 <div className='flex w-50'>
-                { (displayType==='profile')?
+                { (params.display_type==='profile')?
                     <LeftPanelButton 
                         id={'profile'} 
                         text={'Profile'} 
@@ -347,7 +346,7 @@ function LeftPanel ({ displayType='users' }:AppProps ):React.JSX.Element {
                                 return (
                                     <>
                                     { filter.id ?
-                                        <div key={displayType+index} className='flex flex-row bg-white rounded-sm px-2'>
+                                        <div key={params.display_type +index} className='flex flex-row bg-white rounded-sm px-2'>
                                             <label className='text-sm text-black min-w-32'>{filter.name}</label>
 
                                             <input type='checkbox' 
