@@ -1,4 +1,4 @@
-
+"use client"
 import { createContext, Dispatch, SetStateAction } from "react"
 
 export const StateContext = createContext<StateContext>({} as StateContext)
