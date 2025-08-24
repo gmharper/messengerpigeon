@@ -7,9 +7,9 @@ interface AppContext {
     getWindowSize:Function,
     isLoggedIn:boolean, setIsLoggedIn:Dispatch<SetStateAction<boolean>>,
     loggedInUsername:string, setLoggedInUsername:Dispatch<SetStateAction<string>>,
-    loggedInUser:user, setLoggedInUser:Dispatch<Reducer<user, any>>,
+    loggedInUser:user, setLoggedInUser:any,
     dummyUser:user, dummyTopic:topic,
-    params:params, setParams:Dispatch<Reducer<params, any>>
+    params:params, setParams:any
 }
 
 interface ThemeContext {

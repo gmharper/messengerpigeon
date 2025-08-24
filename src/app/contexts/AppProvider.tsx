@@ -98,7 +98,7 @@ function AppProvider ({ children }:{ children:React.ReactNode }) {
     } return themeCopy
   }
 
-  const userReducer = (state:any, action:any) => {
+  const userReducer = (state:any, action:any|null) => {
     const userCopy = {...state}
     
     for (const key in state) {
