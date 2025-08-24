@@ -1,17 +1,23 @@
+import axios from "axios"
 
+function patchComment ({ comment_id, comment, setLoading, setError }) {
+    setError(null)
+    setLoading(true)
 
-function patchComment ({ type, username, articleID, setLoading, setError }) {
+    return axios
+        .patch(`/api/comments/${comment_id}`, comment)
+        .then((res) => {
+            const patchedComment = {...res.body.comment}
 
-    switch (type) {
-        case 'like':
-            break;
-        case 'unlike':
-            break;
-    }
-        
-    // get user by username
-    // add id of liked comment to liked_comments array on user
-
-    // get article by articleID
-    // add username to liked_by_user array on article
+            return patchedComment
+        })
+        .catch((err) => {
+            setError(err)
+            return { err_msg: err }
+        })
+        .finally(() => {
+            setLoading(false)
+        })
 }
+
+export default patchComment

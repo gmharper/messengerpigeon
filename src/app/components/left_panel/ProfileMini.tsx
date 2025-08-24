@@ -30,7 +30,7 @@ function ProfileMini ():React.JSX.Element {
     const [storedUser, setStoredUser] = useReducer(profileReducer, loggedInUser)
 
     return (
-        <div className='flex h-32 bg-stone-100 rounded-sm mr-4'>
+        <div className='flex h-32 bg-stone-100 rounded-xs'>
             <div className='flex flex-col'>
                 <div className='relative w-full justify-center overflow-hidden'>
                 { loggedInUser ? loggedInUser.avatar_url ? 
@@ -38,9 +38,6 @@ function ProfileMini ():React.JSX.Element {
                     <UserIcon /> :
                     <UserIcon />
                 }
-                    <button className='z-10 absolute top-2 right-2 w-8 h-8 bg-white rounded-sm p-1'>
-                        <UserIcon className='text-black'/>
-                    </button>
                 </div>
 
                 <button

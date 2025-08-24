@@ -2,43 +2,121 @@
 "use client"
 
 // IMPORTS
-import { useContext, useEffect, useState } from "react"
+import { Dispatch, SetStateAction, useContext, useEffect, useState } from "react"
 import { Link as Link } from "react-router"
 
-import { AppContext } from "../page"
+import { AppContext, ThemeContext } from "../page"
+
+// SCRIPTS
+import handleThemeChange from "../scripts/utils/setTheme"
 
 import {
     ArrowTurnDownRightIcon,
-    ArrowDownRightIcon, 
+    ArrowDownRightIcon,
+    Cog6ToothIcon,
     HomeIcon,
     EnvelopeIcon,
-    PhoneIcon
+    PhoneIcon,
+    UserIcon,
+    MoonIcon, SunIcon
 } from "@heroicons/react/24/solid"
+
+import { Knob } from "primereact/knob"
+import Slider from '@mui/material/Slider';
 
 // TYPE DECLARATION
 type Props = {
+    setDisplayType: Dispatch<SetStateAction<string>>
     isHomepage: boolean
 }
 
-function TopNavBar ({ isHomepage }:Props ):React.JSX.Element {
-    const { getWindowSize } = useContext(AppContext)
+function TopNavBar ({ setDisplayType, isHomepage }:Props ):React.JSX.Element {
+    const { getWindowSize, isLoggedIn, setIsLoggedIn, setLoggedInUsername, setLoggedInUser, loggedInUser } = useContext(AppContext)
+    const { theme, setTheme } = useContext(ThemeContext)
+
+    const [sliderValue, setSliderValue] = useState(100)
+    const [selectedTheme, setSelectedTheme] = useState(loggedInUser.theme)
+
+    function handleLogout () {
+        setIsLoggedIn(false)
+        setLoggedInUsername("")
+        setLoggedInUser(null)
+    }
+
+    
+
+    // function handleThemeChange (type:string) {
+    //     switch (type) {
+    //         case 'dark':
+    //             setTheme({ 
+    //                 base: ' bg-zinc-900',
+    //                 alt: ' bg-zinc-200',
+    //                 lines: ' lines-background-dark'
+    //              })
+    //             setLoggedInUser({ 
+    //                 theme: 'dark', 
+    //             })
+    //             break;
+    //         case 'light':
+    //             setTheme({ 
+    //                 base: ' bg-zinc-200',
+    //                 alt: ' bg-zinc-900', 
+    //                 lines: ' lines-background-white'
+    //             })
+    //             setLoggedInUser({ 
+    //                 theme: 'light',
+    //             })
+    //             break;
+    //         default:
+    //             return
+    //     }
+    // }
 
     return (
-        <div className='relative flex h-12 mb-4 rounded-xs'>
-            <div className='rounded-sm bg-stone-100 shadow-md shadow-sky-500/40 p-1'>
-                <Link to="https://gmharper.netlify.app/" className='content-center' onClick={() => { if (isHomepage) window.location.reload() }}>
-                    <HomeIcon className='p-1 text-black h-full hover:scale-115' />
-                </Link>
-            </div>
+        <div className={'flex flex-row gap-3 h-14 border-b-1 border-zinc-300 px-4 items-center ' +theme.base} >
+            <a href="https://gmharper.netlify.app/" className='w-8 h-8 content-center rounded-xs' onClick={() => { if (isHomepage) window.location.reload() }}>
+                <HomeIcon className={'p-1 h-full hover:scale-115' +theme.text} />
+            </a>
 
-            <div className='w-52'/>
+            <div className='flex-1' />
 
-            <div className='w-100 bg-stone-100 rounded-sm content-center px-4'>
-                <p className='font-bold text-xl text-black text-left'>MESSENGER PIGEON</p>
+            <div className='content-center px-4 translate-x-16'>
+                <p className={'text-2xl text-left font-junigarden ' +theme.text}>Messenger Pigeon</p>
             </div>
 
             <div className='flex-1' />
-                {/* <div className='absolute bg-linear-to-r from-violet-700 via-lime-300 to-violet-700 w-100 h-90 origin-center -top-35 -left-8 animate-border-rotate'/> */}
+
+            <div className='flex w-32 h-8'>
+                <button 
+                    className={'w-16 h-full bg-zinc-900 rounded-l-full outline-1 outline-zinc-300 place-items-center '}
+                    onClick={() => {handleThemeChange( 'dark', setTheme, setLoggedInUser )}}>
+                    <MoonIcon className='h-6 text-white'/>
+                </button>
+                <button 
+                    className={'w-16 h-full bg-white rounded-r-full outline-1 outline-zinc-500 place-items-center'}
+                    onClick={() => {handleThemeChange( 'light', setTheme, setLoggedInUser )}}>
+                    <SunIcon className='h-6 text-black'/>
+                </button>
+            </div>
+
+            { isLoggedIn ?
+                <button className={'flex w-24 h-8 rounded-full px-2 justify-center items-center ' +theme.alt}
+                onClick={() => {handleLogout()}}>
+                    <p className={'font-bold text-sm ' +theme.text_alt}>LOGOUT</p>
+                </button> :
+
+                <button className={'flex w-24 h-8 rounded-full px-2 justify-center items-center ' +theme.alt}
+                onClick={() => {setDisplayType("login")}}>
+                    <p className={'font-bold text-sm ' +theme.text_alt}>LOGIN</p>
+                </button>
+            }
+
+            <button 
+                className={'w-8 h-8 outline-1 outline-bg-zinc-300 rounded-full p-1 content-center' +theme.alt}
+                onClick={() => {}}
+            >
+                <Cog6ToothIcon className={theme.text_alt} />    
+            </button>
         </div>
     )
 }

@@ -12,6 +12,25 @@
   --font-mono: var(--font-geist-mono);
 }
 
+@theme {
+  --font-junigarden: junigarden;
+
+  --animate-text-grow: text_grow 3s ease infinite;
+  --animate-message-appear: message_appear 3s linear;
+
+  @keyframes text_grow {
+      0% { scale: 100% 100%; }
+      50% { scale: 105% 105%; }
+      100% { scale: 100% 100%; }
+  };
+  
+  @keyframes message_appear {
+    0% { visibility: visible; translate: 50% 0px; }
+    90% { visibility: visible; translate: 50% 0px; }
+    100% { visibility: hidden; translate: 50% 150px; }
+  };
+}
+
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #202020;
@@ -19,15 +38,54 @@
   }
 }
 
+@font-face {
+  font-family: 'junigarden';
+  src: url('../../public/assets/fonts/junigarden_swash/JunigardenSwash_PERSONAL_USE_ONLY.otf') format('opentype');
+}
+
 body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
-  margin-top: 50px;
-  margin-left: 20px;
-  overflow: hidden;
 }
 
 button {
-  cursor: pointer
+  outline-style: solid;
+  outline-width: 0.5px;
+  outline-color: rgb(235, 235, 235);
+  cursor: pointer;
 }
+button:hover {
+  outline-color: rgb(98, 0, 255);
+  scale: 105%;
+}
+
+select {
+  outline-style: solid;
+  outline-width: 2px;
+  outline-color: rgb(235, 235, 235);
+  cursor: pointer;
+}
+select:hover {
+  outline-color: rgb(98, 0, 255);
+}
+
+
+.square-background {
+  background-image: linear-gradient(to bottom, transparent 95%, #0e0e0e 60%),
+                    linear-gradient(to right, transparent 95%, #141414 60%);
+  background-size: 10px 10px, 10px 10px;
+}
+
+.lines-background-dark {
+  background-image: linear-gradient(to bottom, transparent 95%, #1b1b1b 10%);
+  background-size: 10px 10px, 10px 10px;
+}
+
+.lines-background-light {
+  background-image: 
+                    linear-gradient(to bottom, transparent 95%, #eeeeee 10%);
+  background-size: 10px 10px, 10px 10px;
+}
+
+

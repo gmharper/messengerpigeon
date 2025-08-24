@@ -2,26 +2,23 @@
 "use client"
 
 // IMPORTS
-import { Dispatch, SetStateAction, useContext, useEffect, useReducer, useState } from "react";
-import { AppContext } from "@/app/page";
+import { Dispatch, SetStateAction, createContext, useContext, useEffect, useReducer, useState } from "react";
+import { AppContext, ThemeContext } from "@/app/page";
+import { StateContext } from "@/app/state";
 
 // COMPONENTS
-import FeedPanel from "./Feed/FeedPanel"
-import { UsersPanel, UserPage } from "./Users/index";
-import { ArticlesPanel, ArticlePage } from "./Articles/index";
-import { CommentsPanel, CommentPage } from "./Comments/index";
-import { TopicsPanel, TopicPage } from "./Categories/index";
+    // PAGES
+    import FeedPanel from "./Feed/FeedPanel"
+    import { UsersPanel, UserPage, CreateUserPage } from "./Users/index";
+    import { ArticlesPanel, ArticlePage, PostArticlePage } from "./Articles/index";
+    import { CommentsPanel, CommentPage } from "./Comments/index";
+    import { TopicsPanel, TopicPage, PostTopicPage } from "./Categories/index";
+    import { Profile, Settings } from "./Profile/index"
+    import { LoginPage, SignupPage } from "./Login/index"
 
-import { TopBar, FunctionBar, RoostPanel } from "./Main/index";
+import { FunctionBar, RoostPanel, HeadingBar } from "./Main/index";
 
-import { SwitchButton } from "../style/index";
-
-// STYLING
-const button_selected = ''
-const button_unselected = ''
-
-// TYPE DECLARATION
-
+import { RightPanel } from "../right_panel/index";
 
 type AppProps = {
     displayType: string,
@@ -37,156 +34,190 @@ type filter = {
     only: boolean
 }
 
-type customState = {
-    displayType: string,
-    thingToShow: any,
-    isLiked: boolean,
-    isFavourited: boolean,
-    isFollowed: boolean,
-    draftedComment: string
-}
+function MainPanel ():React.JSX.Element {
+    const { isLoggedIn, loggedInUsername, loggedInUser, setLoggedInUser, params, setParams } = useContext(AppContext)
+    const { theme } = useContext(ThemeContext)
 
-function MainPanel ({ displayType, setDisplayType, filters }:AppProps ):React.JSX.Element {
-    const { loggedInUser, setLoggedInUser } = useContext(AppContext)
-
-    const [sortType, setSortType] = useState('users')
-
-    const [showRoost, setShowRoost] = useState(true)
-    const [showFunctionBar, setShowFunctionBar] = useState(true)
-
-    const [searchInput, setSearchInput] = useState('')
-    const [activeSort, setActiveSort] = useState('created_at')
-    const [activeOrder, setActiveOrder] = useState('DESC')
-    const [activePage, setActivePage] = useState(1)
-
-    const [activeTopic, setActiveTopic] = useState(null)
-    const [activeUser, setActiveUser] = useState(null)
-    const [activeArticle, setActiveArticle] = useState(null)
-    const [activeComment, setActiveComment] = useState(null)
-
-    const [cardShape, setCardShape] = useState('row')
-
-    const [previousState, setPreviousState] = useState({})
-    const [nextState, setNextState] = useState({})
-
-
-
-    // UTILITY FUNCTIONS
-    function handleStateChange ( type:string ):void {
-        switch (type) {
-            case 'previous':
-                setCurrentState(previousState)
-                storeState('previous')
-            case 'next':
-                setCurrentState(nextState)
-                storeState('next')
-        }
-    }   
-
-    function storeState ( type:string ):void {
-        const stateToStore = {}
-
-        switch (type) {
-            case 'next':
-                setPreviousState(stateToStore)
-            case 'previous':
-                setNextState(stateToStore)
-        }
+    const dummyProfileReducer = (state:any, action:any) => {
+        const userCopy = {...state}
+        
+        for (const key in state) {
+        if (action.hasOwnProperty(key)) userCopy[key] = action[key]
+        } return userCopy
     }
 
-    // The General handler for setting the content of the main panel
-    // it needs to know what the displayType is as well as the actual content eg. specific user, specific article etc.
-    // There may also be additional states required such as whether an article has been liked etc.
-    function setCurrentState ( state:any ):void { 
+    const [dummyProfile, setDummyProfile] = useReducer(dummyProfileReducer, loggedInUser)
 
-    }
+    const [loading, setLoading] = useState(false)
+    const [error, setError] = useState(null)
 
     useEffect(() => {
-        switch (displayType) {
-            case 'feed':
-                setShowFunctionBar(true)
-                break;
-            case 'topics':
-                setShowFunctionBar(true)
+        switch (params.display_type) {
+            case 'profile':
+                setParams({
+                    disable_roost: false,
+                    roost_type: 'profile',
+                    show_function_bar: false,
+                    show_filters: false,
+                    show_heading: true
+                })
                 break;
             case 'users':
-                setShowFunctionBar(true)
-                break;
             case 'articles':
-                setShowFunctionBar(true)
-                break;
+            case 'topics':
+            case 'comments':
             case 'games':
-                setShowFunctionBar(true)
+                setParams({
+                    disable_roost: false,
+                    show_function_bar: true,
+                    show_filters: true,
+                    show_heading: true,
+                })
                 break;
-            case 'profile':
-                setShowFunctionBar(false)
-                break;
-            case 'topic_page':
-                setShowFunctionBar(false)
+            case 'comment_page':
+            case 'game_page':
+                setParams({
+                    disable_roost: false,
+                    roost_type: 'user',
+                    show_function_bar: true,
+                    show_filters: false,
+                    show_heading: true
+                })
                 break;
             case 'user_page':
-                setShowFunctionBar(false)
+                setParams({
+                    disable_roost: false,
+                    roost_type: 'user_page',
+                    show_function_bar: false,
+                    show_filters: false,
+                    show_heading: false
+                })
                 break;
             case 'article_page':
-                setShowFunctionBar(false)
+                setParams({
+                    disable_roost: false,
+                    roost_type: 'user',
+                    show_function_bar: false,
+                    show_filters: false,
+                    show_heading: false
+                })
                 break;
+            case 'topic_page':
+                setParams({
+                    disable_roost: false,
+                    roost_type: 'topic',
+                    show_function_bar: true,
+                    show_filters: false,
+                    show_heading: true
+                })
+                break;
+            case 'settings':
+                setParams({
+                    disable_roost: false,
+                    roost_type: 'user',
+                    show_function_bar: true,
+                    show_filters: false,
+                    show_heading: false
+                })
+                break;
+            default:
+                setParams({
+                    disable_roost: false,
+                    roost_type: 'user',
+                    show_function_bar: true,
+                    show_filters: true,
+                    show_heading: true,
+                })
         }
-    }, [displayType])
+    }, [params.display_type, params.roost_type])
 
     return (
-        <div className='flex flex-col gap-3 w-150 md:w-210 xl:w-250 2xl:w-300 h-300 bg-zinc-700 rounded-xl shadow-xl overflow-hidden outline-2 outline-zinc-400'>
-            
-            <TopBar handleStateChange={handleStateChange} />
-            
-            <div className='flex flex-col gap-3 px-2 h-300'>
-                { showRoost ? <RoostPanel /> : <></> }
+            <div className={'min-w-200 w-300 2xl:w-300 rounded-md lines-background shadow-xl overflow-hidden outline-1 outline-zinc-500 justify-center px-4 py-2' +theme.base}>
+                <div className='flex flex-col h-300'>
+                    { isLoggedIn ? 
+                        params.disable_roost ? <></> : 
+                        <div className='flex w-full items-center justify-center mb-2'>
+                            <RoostPanel 
+                                type={params.roost_type? params.roost_type : 'user'} 
+                                dummyProfile={dummyProfile? dummyProfile : {}} 
+                                setDummyProfile={setDummyProfile}
+                            /> 
+                        </div>
+                    :
+                        <></>
+                    }
 
-                { showFunctionBar &&
-                    <FunctionBar
-                        displayType={displayType}
-                        sortType={sortType}
-                        showRoost={showRoost}
-                        setShowRoost={setShowRoost}
-                        setSearchInput={setSearchInput} 
-                        setCardShape={setCardShape} 
-                        setActiveSort={setActiveSort} 
-                        setActiveOrder={setActiveOrder}
-                        setActivePage={setActivePage}
-                    />
-                }
-
-                <div className='bg-zinc-800 rounded-2xl overflow-scroll h-full p-1'>
-                { displayType==='feed' ?
-                    <FeedPanel user={loggedInUser ? loggedInUser : null } sort={activeSort} order={activeOrder} page={activePage} filters={filters} />
-                    : displayType==='topics' ?
-
-                    <TopicsPanel cardShape={cardShape} sort={activeSort} order={activeOrder} page={activePage} filters={filters} /> 
-                    : displayType==='users' ?
-
-                    <UsersPanel cardShape={cardShape} sort={activeSort} order={activeOrder} page={activePage} filters={filters} /> 
-                    : displayType==='user_page' ?
-
-                    <ArticlesPanel cardShape={cardShape} sort={activeSort} order={activeOrder} page={activePage} filters={filters} /> 
-                    : displayType==='article_page' ?
-
-                    <CommentsPanel cardShape={cardShape} sort={activeSort} order={activeOrder} page={activePage} filters={filters} /> 
-                    : displayType==='comment_page' ?
+                    { params.show_function_bar ?
+                        <div className='flex mb-4'>
+                            <FunctionBar />
+                        </div> : <></>
+                    }
                     
-                    <TopicPage topic={ activeTopic ? activeTopic : null} /> 
-                    : displayType==='user_page' ?
+                    { params.show_heading ?
+                        <div className='flex mb-4 px-8'>
+                            <HeadingBar 
+                                heading={params.heading? params.heading : 'HEADING'} 
+                                page={params.page? params.page : 0} 
+                                maxPage={params.max_page? params.max_page : 8}
+                            />
+                        </div> : <></>
+                    }
 
-                    <UserPage user={ activeUser ? activeUser : null }/> 
-                    : displayType ==='article_page' ?
-                    
-                    <ArticlePage article={ activeArticle ? activeArticle : null }/> 
-                    : displayType === 'comment_page' ?
+                    <div className={'flex overflow-x-none w-full h-full justify-center rounded-t-xl outline-1 ' +theme.panel}>
+                    { 
+                        (params.display_type==='feed' || params.display_type==='feed_default') ?
+                        <FeedPanel />
+                        
+                        : (params.display_type==='topics' || params.display_type==='topics_default') ?
+                        <TopicsPanel /> 
+                        
+                        : (params.display_type==='users' || params.display_type==='users_default') ?
+                        <UsersPanel /> 
+                        
+                        : (params.display_type==='articles' || params.display_type==='articles_default') ?
+                        <ArticlesPanel /> 
 
-                    <CommentPage comment={ activeComment ? activeComment : null }/> 
-                    : <></>
-                }
+                        : (params.display_type==='comments' || params.display_type==='comments_default') ?
+                        <CommentsPanel /> 
+
+                        : params.display_type==='topic_page' ?
+                        <TopicPage />
+
+                        : params.display_type==='user_page' ?
+                        <UserPage /> 
+
+                        : params.display_type ==='article_page' ?
+                        <ArticlePage /> 
+                        
+                        : params.display_type === 'comment_page' ?
+                        <CommentPage />
+
+                        : params.display_type === 'post_article' ?
+                        <PostArticlePage />
+
+                        : params.display_type === 'post_topic' ?
+                        <PostTopicPage />
+
+                        : params.display_type === 'create_user' ?
+                        <CreateUserPage />
+
+                        : params.display_type === 'login' ?
+                        <LoginPage />
+
+                        : params.display_type === "signup" ?
+                        <SignupPage />
+
+                        : params.display_type === "profile" ?
+                        <Profile dummyProfile={dummyProfile? dummyProfile : {}} setDummyProfile={setDummyProfile}/> 
+                        
+                        : params.display_type === "settings" ? 
+                        <Settings dummyProfile={dummyProfile? dummyProfile : {}} setDummyProfile={setDummyProfile}/> 
+                        
+                        : <></>
+                    }
+                    </div>
                 </div>
             </div>
-        </div>
     )
 }
 

@@ -1,27 +1,25 @@
-
 "use client"
 
 // IMPORTS
-import { Dispatch, SetStateAction, ChangeEventHandler, InputHTMLAttributes, useState } from "react"
+import { Dispatch, SetStateAction, ChangeEventHandler, InputHTMLAttributes, useState, useContext } from "react"
+import { AppContext } from "@/app/page"
 
 // TYPE DECLARATION
 type Props = {
-    setSearchInput: Dispatch<SetStateAction<string>>,
     styling?: string
 }
 
-function SearchBar ({ setSearchInput, styling }:Props ):React.JSX.Element {
-
-    function handleInput (e:any) {
-        setSearchInput(e.target.value)
-    }
+function SearchBar ({ styling }:Props ):React.JSX.Element {
+    const { params, setParams } = useContext(AppContext)
 
     return (
         <input 
-            className={'min-w-78 min-h-7 rounded-full bg-white outline-1 outline-black-100 '+styling} 
+            className={'min-w-78 min-h-6 rounded-full bg-white text-black text-xs px-2 outline-1 outline-zinc-300 '+styling} 
             type='text' 
-            onChange={handleInput}>
-        </input>
+            onChange={ (e) => { setParams({ search: e.target.value}) } }
+            value={params.search}
+            placeholder={`Search ${params.display_type}`}
+        />
     )
 }
 

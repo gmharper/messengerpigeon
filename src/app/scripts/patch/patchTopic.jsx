@@ -1,20 +1,23 @@
+import axios from "axios";
 
+function patchTopic ({ slug, topic, setLoading, setError }) {
+    setError(null)
+    setLoading(true)
 
-function PatchTopic ({ type, username, topicID, setLoading, setError }) {
+    return axios
+        .patch(`/api/topics/${slug}`, topic)
+        .then((res) => {
+            const patchedTopic = {...res.body.topic}
 
-    switch (type) {
-        case 'subscribe':
-            break;
-        case 'unsubscribe':
-            break;
-        case 'block':
-            break;
-        case 'unblock':
-            break;
-    }
-
-    // type: subscribe/unsubscribe
-
-    // get user by username
-    // add topicID to their subscribed topics
+            return patchedTopic
+        })
+        .catch((err) => {
+            setError(err)
+            return { err_msg: err }
+        })
+        .finally(() => {
+            setLoading(false)
+        })
 }
+
+export default patchTopic

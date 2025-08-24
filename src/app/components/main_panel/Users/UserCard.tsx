@@ -2,110 +2,203 @@
 // IMPORTS
 import { useContext, useEffect, useReducer, useState } from "react"
 import { AppContext } from "@/app/page"
+import { StateContext } from "@/app/state"
+
+// SCRIPTS
+import { getUserData } from "@/app/scripts/fetch/index"
+import { patchUserData } from "@/app/scripts/patch/index"
+import { deleteUser } from "@/app/scripts/delete/index"
 
 // COMPONENTS
-import { HeartIcon, UserIcon } from "@heroicons/react/24/solid"
-import { RowCard, SquareCard } from "../../style/index"
+import { Tooltip } from 'react-tooltip'
+import { NewspaperIcon, ChatBubbleBottomCenterTextIcon, XMarkIcon } from "@heroicons/react/24/outline"
+import { ArrowRightCircleIcon, ChevronDoubleRightIcon, HeartIcon, UserIcon } from "@heroicons/react/24/solid"
+import { BoxLabel, RowCard, SquareCard, ReadButton, StarButton } from "../../style/index"
 
 // TYPE DECLARATIONS
 type AppProps = {
-    cardShape: string,
-    user: user
+    username: string,
+    user: user,
+    cardShape: string
 }
 
 type user = {
-    type:string, username: string, name: string, avatar_url: string
-} | null
+    type:string, username: string, name: string, email:string, description:string,
+    avatar_img_url: string, banner_img_url:string, profile_colour:string,
+    banner_blend:string, banner_position:string,
+    articles:Array<number>, comments:Array<number>,
+    subscribed_topics:Array<string>, subscribed_games:Array<string>,
+    followers:Array<string>, following:Array<string>,
+    voted_articles:Array<string>, voted_comments:Array<string>,
+    created_at:string
+}
 
 // STYLING
-const card_styling = 'bg-zinc-200 rounded-sm p-2 hover:outline-2 outline-violet-600 cursor-pointer'
+const card_styling = ''
 
-function UserCard ( { cardShape, user }:AppProps ):React.JSX.Element {
-    const { loggedInUser, getWindowSize } = useContext(AppContext)
+function UserCard ( { username, user, cardShape }:AppProps ):React.JSX.Element {
+    const { loggedInUsername, loggedInUser, getWindowSize } = useContext(AppContext)
+    const { setCurrentState } = useContext(StateContext)
+
+    const userReducer = (state:any, action:any) => {
+        const userCopy = {...state}
+
+        for (const key in action) {
+            if (userCopy.hasOwnProperty(key)) userCopy[key] = action[key]
+        } return userCopy
+    }
     
     const [storedUser, setStoredUser] = useReducer(userReducer, user)
 
-    const [isLiked, setIsLiked] = useState(false)
-    const [isFollowed, setIsFollowed] = useState(false)
+    const [following, setFollowing] = useState(loggedInUser.following.includes(username))
 
-    function userReducer (state:user, action:any):user {
-        if (state && action) {
-            if (state.username === action.username) return state
+    const [followLoading, setFollowLoading] = useState(false)
+    const [followError, setFollowError] = useState(null)
+
+    function openUserPage () {
+        if (user && user.username) {
+            const userState = {
+                id: username,
+                loading_page: true,
+                display_type: "user_page",
+                roost_type: "user_page",
+                heading: user.name,
+            }
+            setCurrentState(userState)
         }
-        return state
+    }
+
+    function openSortedArticles () {
+        if (user && user.username) {
+            const articleState = {
+                id: username,
+                loading_page: true,
+                display_type: "articles",
+                heading: `Articles by ${user.username}`,
+                author: user.username,
+                sort: "created_at",
+                order: "DESC"
+            }
+            setCurrentState(articleState)
+        }
+    }
+
+    function openSortedComments () {
+        if (user && user.username) {
+            const commentState = {
+                id: username,
+                loading_page: true,
+                display_type: "comments",
+                heading: `Comments by ${user.username}`,
+                author: username,
+                sort: "created_at",
+                order: "DESC"
+            }
+            setCurrentState(commentState)
+        }
+    }
+
+    function handleFollow () {
+        setFollowing(true) // optimistic rendering
+
+        const userFollowers = [...storedUser.followers]
+        userFollowers.push(loggedInUsername)
+
+        setStoredUser({ followers: userFollowers })
+
+        // make call to database
+    }
+
+    function handleUnfollow () {
+        setFollowing(false) // optimistic rendering
+
+        const userFollowers = [...storedUser.followers]
+        userFollowers.splice(userFollowers.indexOf(loggedInUsername))
+
+        setStoredUser({ followers: userFollowers })
+
+        // make call to database
     }
 
     useEffect(() => {
         if (user) setStoredUser(user)
-
-        // get following users to show follow/following state
     }, [loggedInUser, user])
 
     return (
         <>
             { user && cardShape==='row' ? 
-            <RowCard styling={'flex flex-row gap-2 w-full min-h-24 h-24 ' +card_styling} children={
-                <>
-                    <div className='h-full min-w-24 aspect-square overflow-hidden rounded-sm'>
-                        { user ? user.avatar_url ?
-                        <img src={user ? user.avatar_url : undefined} className='h-full w-24 aspect-square' />
-                        : <UserIcon className='h-full w-full'/> : <UserIcon className='h-full w-full' />
-                        }
-                    </div>
+            <RowCard type={'user'} height={'h-32 '} styling={following ? "outline-3 outline-sky-500 shadow-lg shadow-sky-500 " : "outline-1 outline-zinc-300 "} children={
+                <div className='relative w-full h-full overflow-hidden'>
+                    <img className='absolute w-full' src={storedUser ? storedUser.banner_img_url ? storedUser.banner_img_url : null : null} />
 
-                    <div className='flex flex-col gap-2'>
-                        <div className='flex flex-row w-full h-8'>
-                            <div className='w-64 h-full bg-white rounded-sm content-center px-2'>
-                                <p className='font-bold text-black'>{ user ? user.name ? user.name : '' : '' }</p>
-                            </div>
+                    <div className='flex flex-row w-full h-full gap-2 p-2'>
+                        <div className='flex h-28 min-w-28 max-w-28 rounded-sm overflow-hidden'>
+                            { storedUser ? storedUser.avatar_img_url ?
+                            <img src={storedUser ? storedUser.avatar_img_url : undefined} className='h-full aspect-square rounded-xs ' />
+                            : <UserIcon className='h-full w-full'/> : <UserIcon className='h-full w-full' />
+                            }
                         </div>
 
-                        <div className='flex-1' />
-                        
-                        <div className='flex flex-row h-8 rounded-lg overflow-hidden'>
-                            <div className='w-16 bg-zinc-300 content-center px-2'>
-                                <p className='text-black'>10k</p>
+                        <div className='flex flex-col w-full'>
+                            <div className='flex flex-row'>
+                                <BoxLabel text={`${storedUser ? storedUser.name : "name"}`} text_size={'text-sm '} styling={' w-60 outline-1 outline-zinc-300 '} children={
+                                    <div className=' ml-2 bg-zinc-200 px-2 rounded-sm'>
+                                        <p className='text-black text-xs'>{`@${storedUser ? storedUser.username : "username"}`}</p>
+                                    </div>
+                                }/>
+
+                                <div className='flex-1' />
+
+                                <div className='flex flex-row gap-1'>
+                                    <div 
+                                        className='w-12 bg-zinc-300 content-center px-2 rounded-sm'
+                                        data-tooltip-id={username +'_followers'}
+                                        data-tooltip-content='Number of Followers'
+                                        data-tooltip-place='bottom'
+                                    >
+                                        <p className='text-sm text-black text-center'>{storedUser? storedUser.followers.length : 0}</p>
+                                    </div>
+                                    <Tooltip id={username +'_followers'} />
+
+                                    <div className='w-8'>
+                                        <StarButton isStarred={following} setFn={handleFollow} unsetFn={handleUnfollow}/>
+                                    </div>
+                                </div>
                             </div>
+
+                            <div className='flex-1' />
                             
-                        {isFollowed ? 
-                            <button 
-                                className='w-32 h-8 bg-sky-500 px-2 rounded-r-lg'
-                                onClick={() => {setIsFollowed(!isFollowed)}}>
-                                <p className='font-bold text-white'>FOLLOWING</p>
-                            </button>
-                            :
-                            <button 
-                                className='w-24 h-8 bg-white px-2 rounded-r-lg'
-                                onClick={() => {setIsFollowed(!isFollowed)}}>
-                                <p className='font-bold text-black'>FOLLOW</p>
-                            </button>
-                        }
-                        </div> 
-                    </div>
-                    
-                    <div className='flex flex-col gap-2'>
-                        <div className='flex flex-row w-24 outline-1 outline-zinc-400 rounded-sm overflow-hidden'>
-                            <p className='text-center text-black bg-zinc-300'>ARTICLES</p>
-                            <p className='text-center text-black bg-white'>100</p>
+                            <div className='flex flex-row w-full rounded-lg'>
+                                <button 
+                                    className='z-20 flex flex-row h-6 bg-white place-items-center rounded-sm mr-2'
+                                    onClick={() => { openSortedArticles() }}
+                                    data-tooltip-id={username +'_articles'}
+                                    data-tooltip-content='Articles'
+                                    data-tooltip-place="top"
+                                >
+                                    <NewspaperIcon className='h-full text-black' />
+                                    <p className='w-10 text-center text-sm text-black bg-white'>{storedUser? storedUser.articles.length : 0}</p>
+                                </button>
+                                <Tooltip id={username +'_articles'} />
+
+                                <button 
+                                    className='z-20 flex flex-row h-6 bg-white place-items-center rounded-sm'
+                                    onClick={() => { openSortedComments() }}
+                                    data-tooltip-id={username +'_comments'}
+                                    data-tooltip-content='Comments'
+                                >
+                                    <ChatBubbleBottomCenterTextIcon className='h-full text-black' />
+                                    <p className='w-10 text-center text-sm text-black bg-white place-items-center'>{storedUser? storedUser.comments.length : 0}</p>
+                                </button>
+                                <Tooltip id={username +'_comments'} />
+
+                                <div className='flex-1' />
+
+                                <ReadButton text={''} Fn={ openUserPage }/>
+                            </div> 
                         </div>
-
-                        <div className='flex flex-row w-24 outline-1 outline-zinc-400 rounded-sm overflow-hidden'>
-                            <p className='text-center text-black bg-zinc-300'>COMMENTS</p>
-                            <p className='text-center text-black bg-white'>100</p>
-                        </div>
                     </div>
-
-                    <div className='flex-1' />
-
-                    <div className='flex flex-col gap-2 items-end'>
-                        
-
-                        <button className='w-8 h-8 bg-zinc-500 rounded-sm p-1'
-                        onClick={() => {setIsLiked(!isLiked)}}>
-                            <HeartIcon className={'' +(isLiked ? ' text-red-400' : ' text-white')}/>
-                        </button>
-                    </div>
-                </>
+                </div>
             } />
 
             : cardShape==='square' ?
