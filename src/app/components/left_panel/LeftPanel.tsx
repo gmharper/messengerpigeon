@@ -10,7 +10,7 @@ import { getArticleData } from "@/app/scripts/fetch"
 
 // COMPONENTS
 import { BoxLabel } from "../style/index.jsx"
-import { LeftPanelButton, ProfileMini } from "./index"
+import { LeftPanelButton } from "./index"
 
 import {
     ArrowTurnDownRightIcon,
