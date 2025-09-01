@@ -23,6 +23,9 @@ import {
 import { Knob } from "primereact/knob"
 import Slider from '@mui/material/Slider';
 
+import logo from "../assets/img/logo.png"
+import logo_white from "../assets/img/logo-white.png"
+
 // TYPE DECLARATION
 type Props = {
     isHomepage: boolean
@@ -51,10 +54,13 @@ function TopNavBar ({ isHomepage }:Props ):React.JSX.Element {
                 <HomeIcon className={'p-1 h-full hover:scale-115' +theme.text} />
             </a>
 
-            <div className='flex-1' />
-
-            <div className='content-center px-4 translate-x-16'>
+            <div className='flex flex-row gap-2 min-w-80 content-center place-items-center px-4'>
                 <p className={'text-2xl text-left font-junigarden ' +theme.text}>Messenger Pigeon</p>
+                { theme.theme==='light'?
+                    <img src={logo.src} className='w-10 h-10'/>
+                    :
+                    <img src={logo_white.src} className='w-10 h-10'/>
+                }
             </div>
 
             <div className='flex-1' />

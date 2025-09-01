@@ -1,6 +1,7 @@
 // IMPORTS
 import { Dispatch, Profiler, Reducer, SetStateAction, useContext, useEffect, useReducer, useRef, useState } from "react"
 import { AppContext, ThemeContext } from "@/app/contexts/AppContext";
+import { Tooltip } from "react-tooltip";
 
 // COMPONENTS
 import { RoostPanel } from "../Main/index"
@@ -152,16 +153,28 @@ function Profile ({ dummyProfile, setDummyProfile }:ProfileProps):React.JSX.Elem
                 <MessageCard message={''} severity={'success'} />
             </div> */}
             <div className='absolute flex flex-col gap-4 top-5 right-5'>
-                <button className='w-12 h-12 rounded-lg bg-white p-2'
-                onClick={() => { handleSave() }}>
+                <button 
+                    className='w-12 h-12 rounded-lg bg-white p-2'
+                    onClick={() => { handleSave() }}
+                    data-tooltip-id='confirm'
+                    data-tooltip-content='Confirm Changes'
+                    data-tooltip-place='left'
+                >
                     <CheckIcon className='text-green-500' />
                 </button>
 
-                <button className='w-12 h-12 rounded-lg bg-white p-2'
-                onClick={() => { handleReset() }}>
+                <button 
+                    className='w-12 h-12 rounded-lg bg-white p-2'
+                    onClick={() => { handleReset() }}
+                    data-tooltip-id='reset'
+                    data-tooltip-content='Reset Changes'
+                    data-tooltip-place='left'
+                >
                     <ArrowUturnLeftIcon className='text-zinc-500' />
                 </button>
             </div>
+            <Tooltip id='confirm' style={{ zIndex:200, backgroundColor:'white', color:'black' }}/>
+            <Tooltip id='reset' style={{ zIndex:200, backgroundColor:'white', color:'black' }}/>
 
             <div className='flex flex-col gap-2 w-full px-16 2xl:px-32'>
                 <div className='relative flex flex-row gap-2'>

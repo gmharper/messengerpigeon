@@ -111,6 +111,22 @@ function MainPanel ():React.JSX.Element {
                     show_heading: true
                 })
                 break;
+            case 'post_article':
+                setParams({
+                    disable_roost: false,
+                    roost_type: 'user',
+                    show_function_bar: 'false',
+                    show_filters: false
+                })
+                break;
+            case 'post_topic':
+                setParams({
+                    disable_roost: false,
+                    roost_type: 'topic',
+                    show_function_bar: 'false',
+                    show_filters: false
+                })
+                break;
             case 'settings':
                 setParams({
                     disable_roost: false,

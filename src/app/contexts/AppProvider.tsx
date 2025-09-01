@@ -103,10 +103,12 @@ function AppProvider ({ children }:{ children:React.ReactNode }) {
   const [loggedInUsername, setLoggedInUsername] = useState('butter_bridge')
   const [loggedInUser, setLoggedInUser] = useReducer(userReducer, {
     type: 'user',
-    username: "butter_bridge", name: "jonny", password: 'butterbridge123', email: "butter_bridge@gmharper.com", description: "Here's Jonny",
+    username: "gmharper", name: "George", password: 'gmharper123', email: "gmharper@messengerpigeon.com", 
+    description: "Hey! Welcome to my roost. Please take a look around the site, it showcases my skills in React, Javascript, CSS and SQL\
+    but bear in mind that it's just a demo, so a lot of functionality has not been fully implemented yet! :)",
     theme: 'light', profile_colour: "blue",
     avatar_img_url:
-      "https://www.healthytherapies.com/wp-content/uploads/2016/06/Lime3.jpg",
+      "https://s3.animalia.bio/animals/photos/full/1x1/img-7400.webp?id=614788c0f7224e8826c80a070df0d3bb",
     banner_img_url: "",
     banner_blend: "normal", banner_position: "center",
     articles: [], comments: [],

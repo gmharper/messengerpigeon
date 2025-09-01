@@ -20,7 +20,7 @@ function LeftPanelButton({ id, text, icon, height='h-10 ', styling, selected, bu
 
     return (
         <button id={id} 
-            className={'flex w-full content-center items-center rounded-sm shadow-sm shadow-black/20 p-2 mb-2 ' +(selected ? 'bg-violet-500 ' : 'bg-stone-100 ' ) +height +styling}
+            className={'flex w-full content-center items-center rounded-sm shadow-sm shadow-black/20 p-2 ' +(selected ? 'bg-violet-500 ' : 'bg-stone-100 ' ) +height +styling}
             onClick={() => {
                 onPress(button_params)
             }}>

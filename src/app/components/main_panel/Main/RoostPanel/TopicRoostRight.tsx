@@ -61,7 +61,7 @@ function TopicRoostRight ({ topic, setTopic, setTopicStyling }:Props):React.JSX.
         <div className='flex flex-col'>
             <div className='flex flex-row gap-1'>
             <div className='flex flex-row rounded-sm overflow-hidden'>
-                <div className='flex w-32 h-8 bg-zinc-300 items-center px-2'>
+                <div className='flex w-32 h-8 bg-zinc-200 items-center px-2'>
                     <p className='text-black'>{`${topic? topic.subscribers? topic.subscribers.length : 0 : 0} subscribers`}</p>
                 </div>
             </div>

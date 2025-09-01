@@ -149,7 +149,7 @@ function RoostPanel ({ type='user', dummyProfile, setDummyProfile }:Props):React
     return (
         <div className='relative flex w-full justify-center'>
             <button 
-                className={'absolute z-100 flex w-24 h-6 bg-white outline-1 outline-zinc-300 rounded-b-xl justify-center items-center ' +(params.show_roost ? '-bottom-6' : '-bottom-4')}
+                className={'absolute z-100 flex w-24 h-6 bg-white border-b-2 border-x-1 border-zinc-300 rounded-b-xl justify-center items-center ' +(params.show_roost ? '-bottom-6' : '-bottom-4')}
                 onClick={ () => { setParams({ show_roost: !params.show_roost }) }}>
                     { params.show_roost ? <ChevronUpIcon className={'h-8 text-black'}/> : <ChevronDownIcon className={'h-8 text-black'}/>}
             </button>
@@ -165,7 +165,13 @@ function RoostPanel ({ type='user', dummyProfile, setDummyProfile }:Props):React
                 { 
                     type==='user'? 
                     <>
+                    { loggedInUser? loggedInUser.banner_img_url? 
+                        <img src={loggedInUser.banner_img_url} className='absolute flex w-full'/>
+                        :
                         <video src={"/assets/roost.mp4"} autoPlay={true} muted={true} loop={true} className='absolute flex w-full saturate-200'/>
+                        :
+                        <video src={"/assets/roost.mp4"} autoPlay={true} muted={true} loop={true} className='absolute flex w-full saturate-200'/>
+                    }
 
                         <div className='z-20 min-w-100 flex px-2 py-1'>
                             <RoostLeft user={loggedInUser? loggedInUser : dummyUser} />
@@ -183,7 +189,13 @@ function RoostPanel ({ type='user', dummyProfile, setDummyProfile }:Props):React
                     </>
                     : type==='profile'?
                     <>
+                    { dummyProfile? dummyProfile.banner_img_url? 
+                        <img src={dummyProfile.banner_img_url} className='absolute flex w-full'/>
+                        :
                         <video src={"/assets/roost.mp4"} autoPlay={true} muted={true} loop={true} className='absolute flex w-full saturate-200'/>
+                        :
+                        <video src={"/assets/roost.mp4"} autoPlay={true} muted={true} loop={true} className='absolute flex w-full saturate-200'/>
+                    }
 
                         <div className='z-20 min-w-100 flex px-2 py-1'>
                             <RoostLeft user={dummyProfile? dummyProfile : dummyUser} />
@@ -201,6 +213,14 @@ function RoostPanel ({ type='user', dummyProfile, setDummyProfile }:Props):React
                     </>
                     : type==='user_page'?
                     <>
+                    { storedUser? storedUser.banner_img_url? 
+                        <img src={storedUser.banner_img_url} className='absolute flex w-full'/>
+                        :
+                        <video src={"/assets/roost.mp4"} autoPlay={true} muted={true} loop={true} className='absolute flex w-full saturate-200'/>
+                        :
+                        <video src={"/assets/roost.mp4"} autoPlay={true} muted={true} loop={true} className='absolute flex w-full saturate-200'/>
+                    }
+
                         <div className='z-20 min-w-100 flex px-2 py-1'>
                             <RoostLeft user={storedUser? storedUser : dummyUser} />
                         </div>
@@ -221,6 +241,14 @@ function RoostPanel ({ type='user', dummyProfile, setDummyProfile }:Props):React
                     </>
                     : type==='topic'?
                     <>
+                    { storedTopic? storedTopic.banner_img_url? 
+                        <img src={storedTopic.img_url} className='absolute flex w-full'/>
+                        :
+                        <></>
+                        :
+                        <></>
+                    }
+
                         <div className='z-20 flex h-full px-2 py-1'>
                             <TopicRoostLeft topic={storedTopic? storedTopic : dummyTopic} />
                         </div>

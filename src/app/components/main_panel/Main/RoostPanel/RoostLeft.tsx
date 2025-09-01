@@ -8,6 +8,9 @@ import { Tooltip } from "react-tooltip"
 import { BoxLabel } from "@/app/components/style/index"
 import { UserIcon, TagIcon, NewspaperIcon, ChatBubbleBottomCenterTextIcon, ShieldCheckIcon } from "@heroicons/react/24/solid"
 
+import RoostIcon from "../../../../assets/img/roost.svg"
+import RoostIcon2 from "../../../../assets/img/roost2.svg"
+
 // TYPE DECLARATIONS
 type Props ={
     user:user
@@ -60,12 +63,15 @@ function RoostLeft ({ user }:Props):React.JSX.Element {
 
     return (
             <div className='flex flex-row max-h-full gap-2'>
-                <div className='w-28 h-28 bg-white rounded-sm overflow-hidden p-1'>
+                <div className='relative flex w-28 h-28 bg-white rounded-md overflow-hidden outline-2 outline-zinc-500'>
                     { 
                         user ? user.avatar_img_url ? 
-                        <img src={user ? user.avatar_img_url ? user.avatar_img_url : '' : ''} /> :
+                        <img src={user ? user.avatar_img_url ? user.avatar_img_url : RoostIcon.src : RoostIcon.src} /> :
                         <UserIcon className='text-black'/> : <UserIcon className='text-black'/>
                     }
+                    <div className='absolute top-1 left-1 rounded-full w-8 h-8 outline-1 outline-zinc-500 overflow-hidden bg-white p-1'>
+                        <img src={RoostIcon2.src} className='w-6 h-6' />
+                    </div>
                 </div>
 
                 <div className='flex flex-col gap-1'>
@@ -78,14 +84,20 @@ function RoostLeft ({ user }:Props):React.JSX.Element {
                                     className='w-6 h-6 text-sky-500' 
                                     data-tooltip-id='verified' 
                                     data-tooltip-content='This User has been Verified'
+                                    data-tooltip-place='bottom'
                                 />
                                 <Tooltip id='verified' />
                             </>
                                 : <></> : <></>
                             }
-                                <div className=' ml-2 bg-zinc-200 px-2 rounded-sm'>
+                                <div 
+                                    className=' ml-2 bg-zinc-200 px-2 rounded-sm'
+                                    data-tooltip-id='username'
+                                    data-tooltip-content='Username'
+                                >
                                     <p className='text-black'>{`@${user ? user.username : "username"}`}</p>
                                 </div>
+                                <Tooltip id='username' style={{ backgroundColor:'black', opacity:'100%', color:'white' }}/>
                             </>
                         }/>
                         
@@ -110,7 +122,7 @@ function RoostLeft ({ user }:Props):React.JSX.Element {
                             <p className='text-black'>{`${user ? user.subscribed_topics ? user.subscribed_topics.length : 0 : 0}`}</p>
                         </div>
                     </button>
-                    <Tooltip id='topics' />
+                    <Tooltip id='topics' style={{ backgroundColor:'black', opacity:'100%', color:'white' }} />
 
                     <button 
                         className='flex flex-row gap-1'
@@ -123,7 +135,7 @@ function RoostLeft ({ user }:Props):React.JSX.Element {
                             <p className='text-black'>{`${user ? user.articles ? user.articles.length : 0 : 0}`}</p>
                         </div>
                     </button>
-                    <Tooltip id='articles' />
+                    <Tooltip id='articles' style={{ backgroundColor:'black', opacity:'100%', color:'white' }} />
 
                     <button 
                         className='flex flex-row gap-1'
@@ -136,7 +148,7 @@ function RoostLeft ({ user }:Props):React.JSX.Element {
                             <p className='text-black'>{`${user ? user.comments ? user.comments.length : 0 : 0}`}</p>
                         </div>
                     </button>
-                    <Tooltip id='comments' />
+                    <Tooltip id='comments' style={{ backgroundColor:'black', opacity:'100%', color:'white' }} />
                 </div>
             </div>
     )

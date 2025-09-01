@@ -19,13 +19,13 @@ export default function Home() {
   return (
     <AppProvider children={
           <>
-            <div className='-z-20 absolute w-screen overflow-hidden square-background'>
+            {/* <div className='-z-20 absolute w-screen min-h-screen square-background'>
               <img src={bg.src} className='opacity-50 saturate-100' />
-            </div> 
+            </div>  */}
 
             <TopNavBar isHomepage={false}/>
 
-            <div className='relative flex flex-row gap-3 pt-4 px-4 2xl:px-20'>
+            <div className='relative flex flex-row gap-3 pt-4 px-4 2xl:px-20 2xl:pl-40'>
               <LeftPanel />
               <MainPanel />
 
